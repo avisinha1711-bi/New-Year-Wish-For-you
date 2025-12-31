@@ -39,8 +39,9 @@
             margin: 0 auto;
             position: relative;
             height: 100%;
-            min-height: 200px;
+            min-height: 180px;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
         }
@@ -52,21 +53,34 @@
             -webkit-tap-highlight-color: transparent;
             animation: heartbeat 1.2s infinite alternate;
             transition: all 0.8s ease;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            position: relative;
+            margin-bottom: 15px;
             z-index: 10;
         }
         
         .heart:active {
-            transform: translate(-50%, -50%) scale(1.1);
+            transform: scale(1.1);
         }
         
         .heart.clicked {
             opacity: 0;
-            transform: translate(-50%, -50%) scale(0.1);
+            transform: scale(0.1);
             pointer-events: none;
+        }
+        
+        /* Instruction text positioned just below heart */
+        .instruction {
+            color: #ff69b4;
+            font-size: 1.3rem;
+            text-align: center;
+            transition: opacity 0.5s ease;
+            padding: 0 10px;
+            position: relative;
+            margin-top: 5px;
+        }
+        
+        .instruction.fade {
+            opacity: 0;
         }
         
         /* Star styling */
@@ -254,23 +268,6 @@
             right: 35px;
         }
         
-        .instruction {
-            color: #ff69b4;
-            font-size: 1.3rem;
-            margin-top: 15px;
-            text-align: center;
-            transition: opacity 0.5s ease;
-            padding: 0 10px;
-            position: absolute;
-            bottom: 20px;
-            width: 100%;
-            left: 0;
-        }
-        
-        .instruction.fade {
-            opacity: 0;
-        }
-        
         /* Sparkle effect */
         .sparkle {
             position: fixed;
@@ -285,8 +282,8 @@
         
         /* Animations optimized for mobile */
         @keyframes heartbeat {
-            from { transform: translate(-50%, -50%) scale(1); }
-            to { transform: translate(-50%, -50%) scale(1.08); }
+            from { transform: scale(1); }
+            to { transform: scale(1.08); }
         }
         
         @keyframes starGlow {
@@ -349,7 +346,7 @@
         /* Touch device optimizations */
         @media (hover: hover) {
             .heart:hover {
-                transform: translate(-50%, -50%) scale(1.1);
+                transform: scale(1.1);
                 text-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
             }
             
@@ -373,6 +370,11 @@
             
             .heart {
                 font-size: 120px;
+                margin-bottom: 20px;
+            }
+            
+            .instruction {
+                font-size: 1.5rem;
             }
             
             .main-star {
@@ -385,11 +387,6 @@
             
             .cloud-container {
                 flex-direction: row;
-            }
-            
-            .instruction {
-                font-size: 1.5rem;
-                bottom: 30px;
             }
             
             .mini-star {
@@ -410,11 +407,16 @@
             }
             
             .heart-container {
-                min-height: 150px;
+                min-height: 140px;
             }
             
             .heart {
                 font-size: 70px;
+                margin-bottom: 10px;
+            }
+            
+            .instruction {
+                font-size: 1.1rem;
             }
             
             .main-star {
@@ -427,11 +429,6 @@
             
             .cloud-container {
                 margin-top: 15px;
-            }
-            
-            .instruction {
-                bottom: 10px;
-                font-size: 1.1rem;
             }
             
             .signature {
@@ -449,6 +446,8 @@
                 <i class="fas fa-heart"></i>
             </div>
             
+            <p class="instruction" id="instruction">Click the Heart</p>
+            
             <div class="star-container" id="starContainer">
                 <div class="main-star">★</div>
                 <div class="mini-star mini-star-1">✦</div>
@@ -458,8 +457,6 @@
                 <div class="mini-star mini-star-5">✦</div>
             </div>
         </div>
-        
-        <p class="instruction" id="instruction">Click the Heart</p>
         
         <div class="messages" id="messages">
             <div class="message-box" id="topLeft">
@@ -530,12 +527,12 @@
             // Touch event for better mobile response
             heart.addEventListener('touchstart', function(e) {
                 e.preventDefault();
-                this.style.transform = 'translate(-50%, -50%) scale(1.1)';
+                this.style.transform = 'scale(1.1)';
             });
             
             heart.addEventListener('touchend', function(e) {
                 e.preventDefault();
-                this.style.transform = 'translate(-50%, -50%) scale(1)';
+                this.style.transform = 'scale(1)';
                 handleHeartClick();
             });
             
